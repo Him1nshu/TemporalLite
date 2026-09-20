@@ -1,0 +1,29 @@
+{
+  "name": "temporallite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Him1nshu/TemporalLite.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Him1nshu/TemporalLite/issues"
+  },
+  "homepage": "https://github.com/Him1nshu/TemporalLite#readme",
+  "dependencies": {
+    "@types/node": "^26.6.2",
+    "express": "^5.2.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
+}
