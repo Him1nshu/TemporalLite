@@ -1,10 +1,11 @@
 {
   "name": "temporallite",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A distributed task scheduling platform",
+  "main": "backend/src/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,12 +19,6 @@
   },
   "homepage": "https://github.com/Him1nshu/TemporalLite#readme",
   "dependencies": {
-    "@types/node": "^26.6.2",
-    "express": "^5.2.1",
-    "tsx": "^4.23.15",
-    "typescript": "^7.0.2"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.6"
+    "express": "^5.2.1"
   }
 }
