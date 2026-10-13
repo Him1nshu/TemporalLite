@@ -1,36 +1,47 @@
 const { randomUUID } = require("node:crypto");
+const { pool } = require("../db");
 
-const jobs = new Map();
+function mapJob(row) {
+  if (!row) {
+    return null;
+  }
 
-function createJob({ name, payload, scheduledFor }) {
-  const now = new Date().toISOString();
-  const job = {
-    id: randomUUID(),
-    name,
-    payload,
-    status: "pending",
-    attempts: 0,
-    scheduledFor,
-    createdAt: now,
-    updatedAt: now,
+  return {
+    id: row.id,
+    name: row.name,
+    payload: row.payload,
+    status: row.status,
+    attempts: row.attempts,
+    scheduledFor: row.scheduled_for.toISOString(),
+    createdAt: row.created_at.toISOString(),
+    updatedAt: row.updated_at.toISOString(),
   };
-
-  jobs.set(job.id, job);
-  return job;
 }
 
-function listJobs() {
-  return [...jobs.values()].sort((left, right) =>
-    right.createdAt.localeCompare(left.createdAt),
+async function createJob({ name, payload, scheduledFor }) {
+  const result = await pool.query(
+    `INSERT INTO jobs (id, name, payload, scheduled_for)
+     VALUES ($1, $2, $3::jsonb, $4)
+     RETURNING *`,
+    [randomUUID(), name, JSON.stringify(payload), scheduledFor],
   );
+
+  return mapJob(result.rows[0]);
 }
 
-function findJob(id) {
-  return jobs.get(id) || null;
+async function listJobs() {
+  const result = await pool.query("SELECT * FROM jobs ORDER BY created_at DESC");
+  return result.rows.map(mapJob);
 }
 
-function deleteJob(id) {
-  return jobs.delete(id);
+async function findJob(id) {
+  const result = await pool.query("SELECT * FROM jobs WHERE id = $1", [id]);
+  return mapJob(result.rows[0]);
+}
+
+async function deleteJob(id) {
+  const result = await pool.query("DELETE FROM jobs WHERE id = $1", [id]);
+  return result.rowCount > 0;
 }
 
 module.exports = { createJob, listJobs, findJob, deleteJob };

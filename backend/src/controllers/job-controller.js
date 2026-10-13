@@ -40,7 +40,7 @@ function validateCreateJob(body) {
   return errors;
 }
 
-function createJobHandler(request, response) {
+async function createJobHandler(request, response) {
   const errors = validateCreateJob(request.body);
   if (errors.length > 0) {
     response.status(400).json({
@@ -53,7 +53,7 @@ function createJobHandler(request, response) {
     return;
   }
 
-  const job = createJob({
+  const job = await createJob({
     name: request.body.name.trim(),
     payload: request.body.payload || {},
     scheduledFor: request.body.scheduledFor || new Date().toISOString(),
@@ -62,12 +62,12 @@ function createJobHandler(request, response) {
   response.status(201).json({ data: job });
 }
 
-function listJobsHandler(_request, response) {
-  response.json({ data: listJobs() });
+async function listJobsHandler(_request, response) {
+  response.json({ data: await listJobs() });
 }
 
-function getJobHandler(request, response) {
-  const job = findJob(request.params.id);
+async function getJobHandler(request, response) {
+  const job = await findJob(request.params.id);
   if (!job) {
     response.status(404).json({
       error: {
@@ -81,8 +81,8 @@ function getJobHandler(request, response) {
   response.json({ data: job });
 }
 
-function deleteJobHandler(request, response) {
-  if (!deleteJob(request.params.id)) {
+async function deleteJobHandler(request, response) {
+  if (!(await deleteJob(request.params.id))) {
     response.status(404).json({
       error: {
         code: "JOB_NOT_FOUND",
