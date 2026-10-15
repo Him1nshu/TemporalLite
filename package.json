@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Him1nshu/TemporalLite#readme",
   "dependencies": {
+    "dotenv": "^18.0.8",
     "express": "^5.2.1",
     "pg": "^8.23.1"
   }
