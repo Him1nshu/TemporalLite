@@ -76,10 +76,16 @@ The default `.env` values are:
 ```dotenv
 DATABASE_URL=postgres://temporallite:temporallite@localhost:55432/temporallite
 PORT=3000
+POSTGRES_USER=temporallite
+POSTGRES_PASSWORD=temporallite
+POSTGRES_DB=temporallite
+POSTGRES_PORT=55432
 ```
 
 `DATABASE_URL` must point to the PostgreSQL instance used by the API. `PORT`
-must be an integer between 1 and 65535.
+must be an integer between 1 and 65535. The `POSTGRES_*` settings configure
+the local Docker Compose database and must match the credentials and host port
+used by `DATABASE_URL`.
 
 ## Database
 
@@ -93,6 +99,10 @@ Docker Compose runs PostgreSQL 16 with these local development settings:
 
 The database data is stored in the named Docker volume
 `temporallite-postgres-data`, so restarting the container does not remove jobs.
+Compose exposes a healthcheck for PostgreSQL readiness. If credentials are
+changed after the volume has been created, update the existing database
+credentials or recreate the local volume; changing environment variables alone
+does not alter an initialized PostgreSQL data directory.
 To stop the database without deleting its data:
 
 ```cmd
