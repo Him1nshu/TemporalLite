@@ -48,6 +48,23 @@ npm run dev
 
 The API is available at `http://localhost:3000`.
 
+Start the Python frontend in another terminal:
+
+```cmd
+cd frontend
+py -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+py app.py
+```
+
+The frontend is available at `http://127.0.0.1:5000`. It calls the Node API
+over HTTP. Set `TEMPORALLITE_API_URL` if the API is running at a different
+address, and set `FRONTEND_PORT` to change the frontend port.
+
+For the complete setup and frontend request flow, see
+[`setup.md`](setup.md).
+
 To run without file watching:
 
 ```cmd
@@ -172,6 +189,10 @@ backend/src/
   controllers/job-controller.js  Job validation and HTTP handlers
   routes/jobs.js                 Job route definitions
   store/job-store.js             PostgreSQL job queries and response mapping
+frontend/
+  app.py                         Flask frontend and API client
+  templates/                     Server-rendered dashboard pages
+  static/styles.css              Frontend styles
 docker-compose.yml               Local PostgreSQL service
 setup.cmd                        Windows setup script
 ```

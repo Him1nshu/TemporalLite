@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Jobs · TemporalLite{% endblock %}
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">Operations overview</p>
+    <h1>Job dashboard</h1>
+    <p class="muted">Monitor and manage work submitted to TemporalLite.</p>
+  </div>
+  <a class="button button-primary" href="{{ url_for('create_job') }}">Create a job</a>
+</section>
+
+<section class="stats-grid">
+  <div class="stat-card"><span class="stat-label">Total jobs</span><strong>{{ status_counts.total }}</strong></div>
+  <div class="stat-card"><span class="stat-label">Pending</span><strong>{{ status_counts.pending }}</strong></div>
+  <div class="stat-card"><span class="stat-label">Running</span><strong>{{ status_counts.running }}</strong></div>
+  <div class="stat-card"><span class="stat-label">Completed</span><strong>{{ status_counts.completed }}</strong></div>
+</section>
+
+<section class="panel">
+  <div class="panel-heading">
+    <div><h2>Recent jobs</h2><span class="muted">{{ jobs|length }} recorded</span></div>
+  </div>
+  {% if jobs %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Job</th><th>Status</th><th>Attempts</th><th>Scheduled</th><th></th></tr></thead>
+      <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td><a class="job-name" href="{{ url_for('job_details', job_id=job.id) }}">{{ job.name }}</a><span class="job-id">{{ job.id }}</span></td>
+          <td><span class="status status-{{ job.status }}">{{ job.status }}</span></td>
+          <td>{{ job.attempts }}</td>
+          <td>{{ job.scheduledFor|datetime }}</td>
+          <td class="align-right"><a class="text-link" href="{{ url_for('job_details', job_id=job.id) }}">View →</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><div class="empty-icon">⌁</div><h3>No jobs yet</h3><p class="muted">Create your first job to see it here.</p><a class="button button-primary" href="{{ url_for('create_job') }}">Create a job</a></div>
+  {% endif %}
+</section>
+{% endblock %}

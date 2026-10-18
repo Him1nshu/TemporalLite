@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}New job · TemporalLite{% endblock %}
+{% block content %}
+<section class="narrow-page">
+  <a class="back-link" href="{{ url_for('dashboard') }}">← Back to dashboard</a>
+  <p class="eyebrow">Job orchestration</p>
+  <h1>Create a job</h1>
+  <p class="muted intro">Define a job and its JSON payload. It will be submitted to the TemporalLite API.</p>
+  <form class="panel form-panel" method="post">
+    <label for="name">Job name <span class="required">*</span></label>
+    <input id="name" name="name" type="text" maxlength="100" value="{{ name|default('') }}" placeholder="e.g. send-weekly-report" required>
+    <label for="payload">Payload</label>
+    <textarea id="payload" name="payload" rows="9" spellcheck="false">{{ payload|default('{}') }}</textarea>
+    <p class="field-help">A valid JSON object, for example <code>{"recipient": "team@example.com"}</code>.</p>
+    <label for="scheduled_for">Schedule for <span class="optional">(optional)</span></label>
+    <input id="scheduled_for" name="scheduled_for" type="datetime-local">
+    <div class="form-actions"><a class="button button-secondary" href="{{ url_for('dashboard') }}">Cancel</a><button class="button button-primary" type="submit">Create job</button></div>
+  </form>
+</section>
+{% endblock %}

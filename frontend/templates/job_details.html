@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ job.name }} · TemporalLite{% endblock %}
+{% block content %}
+<section class="narrow-page">
+  <a class="back-link" href="{{ url_for('dashboard') }}">← Back to dashboard</a>
+  <div class="detail-heading"><div><p class="eyebrow">Job details</p><h1>{{ job.name }}</h1><span class="job-id">{{ job.id }}</span></div><span class="status status-{{ job.status }}">{{ job.status }}</span></div>
+  <section class="panel">
+    <div class="detail-grid">
+      <div><span class="stat-label">Attempts</span><strong>{{ job.attempts }}</strong></div>
+      <div><span class="stat-label">Scheduled for</span><strong>{{ job.scheduledFor|datetime }}</strong></div>
+      <div><span class="stat-label">Created</span><strong>{{ job.createdAt|datetime }}</strong></div>
+      <div><span class="stat-label">Last updated</span><strong>{{ job.updatedAt|datetime }}</strong></div>
+    </div>
+    <div class="payload-section"><h2>Payload</h2><pre>{{ job.payload|tojson(indent=2) }}</pre></div>
+  </section>
+  <form method="post" action="{{ url_for('delete_job', job_id=job.id) }}" onsubmit="return confirm('Delete this job permanently?');">
+    <button class="button button-danger" type="submit">Delete job</button>
+  </form>
+</section>
+{% endblock %}
