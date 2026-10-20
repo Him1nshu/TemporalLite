@@ -65,6 +65,9 @@ address, and set `FRONTEND_PORT` to change the frontend port.
 For the complete setup and frontend request flow, see
 [`setup.md`](setup.md).
 
+For a clear explanation of the application, architecture, and technical stack,
+see [`walkthrough.md`](walkthrough.md).
+
 To run without file watching:
 
 ```cmd
